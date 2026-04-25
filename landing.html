@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostGenius — AI Social Media for Small Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080C;
+  --surface: #111116;
+  --border: rgba(255,255,255,0.08);
+  --accent: #8B5CF6;
+  --accent-light: #A78BFA;
+  --mint: #10B981;
+  --text: #F1F5F9;
+  --muted: #94A3B8;
+  --dim: #475569;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* Noise texture */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,12,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--text);text-decoration:none}
+.logo em{font-style:normal;color:var(--accent-light)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff!important;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:var(--accent-light)!important;transform:translateY(-1px)}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+.orb1,.orb2{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb1{width:700px;height:700px;background:rgba(139,92,246,.12);top:-150px;left:50%;transform:translateX(-55%);animation:f1 9s ease-in-out infinite}
+.orb2{width:500px;height:500px;background:rgba(16,185,129,.08);bottom:-100px;right:-150px;animation:f2 11s ease-in-out infinite}
+@keyframes f1{0%,100%{transform:translateX(-55%) translateY(0)}50%{transform:translateX(-55%) translateY(-50px)}}
+@keyframes f2{0%,100%{transform:translateY(0)}50%{transform:translateY(-35px)}}
+
+.hero-inner{position:relative;z-index:1;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:var(--accent-light);font-size:13px;padding:6px 16px;border-radius:100px;margin-bottom:2rem}
+.hero-badge-dot{width:6px;height:6px;background:var(--mint);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:800;line-height:1.05;letter-spacing:-.035em;margin-bottom:1.5rem}
+h1 em{font-style:normal;color:var(--accent-light)}
+.hero-sub{font-size:1.15rem;color:var(--muted);max-width:540px;margin:0 auto 2.5rem;font-weight:300;line-height:1.75}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-primary:hover{background:var(--accent-light);transform:translateY(-2px);box-shadow:0 20px 40px rgba(139,92,246,.3)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);padding:14px 32px;border-radius:10px;font-size:15px;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.hero-note{font-size:13px;color:var(--dim)}
+
+/* Demo card */
+.demo-card{margin:3.5rem auto 0;max-width:680px;background:var(--surface);border:1px solid rgba(139,92,246,.2);border-radius:18px;padding:1.5rem;text-align:left;position:relative}
+.demo-card::before{content:'';position:absolute;inset:-1px;border-radius:19px;background:linear-gradient(135deg,rgba(139,92,246,.2),transparent 50%,rgba(16,185,129,.1));z-index:-1}
+.demo-bar{display:flex;gap:6px;margin-bottom:1rem}
+.demo-dot{width:10px;height:10px;border-radius:50%}
+.demo-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.chip{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);color:var(--accent-light);font-size:12px;padding:4px 12px;border-radius:6px}
+.demo-output{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;padding:1rem}
+.demo-platform{font-size:11px;color:var(--mint);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-weight:500}
+.demo-text{font-size:14px;color:var(--text);line-height:1.7}
+
+/* Stats band */
+.stats-band{padding:3.5rem 2rem;display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.01)}
+.stat-item{text-align:center}
+.stat-n{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:var(--text)}
+.stat-n span{color:var(--accent-light)}
+.stat-d{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* Sections */
+.section{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+.section-tag{font-size:12px;color:var(--accent-light);text-transform:uppercase;letter-spacing:.12em;font-weight:500;margin-bottom:1rem}
+h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.15;letter-spacing:-.025em;margin-bottom:1rem}
+h2 em{font-style:normal;color:var(--accent-light)}
+.section-sub{color:var(--muted);max-width:480px;font-weight:300;margin-bottom:3rem;font-size:1.05rem}
+
+/* Features grid */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;transition:border-color .25s,transform .25s}
+.feat-card:hover{border-color:rgba(139,92,246,.3);transform:translateY(-2px)}
+.feat-icon{width:44px;height:44px;background:rgba(139,92,246,.1);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1rem}
+.feat-card h3{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.feat-card p{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));background:var(--border);gap:1px;border-radius:16px;overflow:hidden;border:1px solid var(--border)}
+.step-box{background:var(--bg);padding:2.25rem 2rem}
+.step-num{font-family:'Syne',sans-serif;font-size:4.5rem;font-weight:800;color:rgba(139,92,246,.12);line-height:1;margin-bottom:.75rem}
+.step-box h3{font-size:17px;font-weight:500;margin-bottom:8px}
+.step-box p{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* Pricing */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1rem}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:transform .2s}
+.price-card:hover{transform:translateY(-2px)}
+.price-card.featured{border-color:var(--accent);background:rgba(139,92,246,.05);position:relative}
+.popular-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:500;padding:4px 18px;border-radius:100px;white-space:nowrap;letter-spacing:.02em}
+.plan-name{font-size:13px;color:var(--muted);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em}
+.plan-price{font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;line-height:1;margin-bottom:.25rem}
+.plan-price sub{font-size:1rem;font-family:'DM Sans',sans-serif;color:var(--muted);font-weight:300}
+.plan-tagline{font-size:13px;color:var(--dim);margin-bottom:1.5rem}
+.plan-ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:1.75rem}
+.plan-ul li{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.plan-ul li::before{content:'✓';color:var(--mint);font-weight:700;font-size:13px;flex-shrink:0}
+.plan-btn{display:block;text-align:center;padding:12px;border-radius:9px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+.plan-btn-solid{background:var(--accent);color:#fff}
+.plan-btn-solid:hover{background:var(--accent-light)}
+.plan-btn-outline{border:1px solid var(--border);color:var(--muted)}
+.plan-btn-outline:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
+
+/* Testimonials */
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.testi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.testi-stars{color:#F59E0B;font-size:13px;margin-bottom:.75rem}
+.testi-text{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:1rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--accent-light)}
+.testi-name{font-size:13px;font-weight:500}
+.testi-role{font-size:12px;color:var(--dim)}
+
+/* FAQ */
+.faq-wrap{max-width:700px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{padding:1.25rem 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:400;user-select:none}
+.faq-icon{color:var(--muted);transition:transform .2s;font-size:18px;font-style:normal}
+.faq-a{font-size:14px;color:var(--muted);padding-bottom:1.25rem;line-height:1.75;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+/* CTA Banner */
+.cta-section{text-align:center;padding:7rem 2rem;background:radial-gradient(ellipse at 50% 100%,rgba(139,92,246,.12) 0%,transparent 70%);border-top:1px solid var(--border)}
+.cta-section h2{max-width:600px;margin:0 auto 1rem}
+.cta-section p{color:var(--muted);margin-bottom:2.5rem;font-weight:300}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--dim);font-size:13px}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
+.footer-links a{color:var(--dim);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--muted)}
+
+/* Scroll animations */
+.fade-up{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* Mobile */
+@media(max-width:640px){
+  .nav-links a:not(.nav-cta){display:none}
+  .stats-band{gap:2rem}
+  .hero-ctas{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">Post<em>Genius</em></a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="app.html" class="nav-cta">Try free</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="orb1"></div>
+  <div class="orb2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="hero-badge-dot"></span> AI-powered social media for small businesses</div>
+    <h1>Stop writing captions.<br><em>Start growing.</em></h1>
+    <p class="hero-sub">PostGenius writes platform-perfect social media content for your business in seconds — Instagram, Twitter, LinkedIn, Facebook, done.</p>
+    <div class="hero-ctas">
+      <a href="app.html" class="btn-primary">Start free — no credit card</a>
+      <a href="#features" class="btn-ghost">See how it works</a>
+    </div>
+    <p class="hero-note">7-day free trial on Pro. Cancel anytime.</p>
+
+    <div class="demo-card">
+      <div class="demo-bar">
+        <div class="demo-dot" style="background:#FF5F57"></div>
+        <div class="demo-dot" style="background:#FFBD2E"></div>
+        <div class="demo-dot" style="background:#28C840"></div>
+      </div>
+      <div class="demo-chips">
+        <span class="chip">🍕 Restaurant</span>
+        <span class="chip">New summer menu</span>
+        <span class="chip">Casual & friendly</span>
+      </div>
+      <div class="demo-output">
+        <div class="demo-platform">✦ Instagram</div>
+        <div class="demo-text">Summer just got a whole lot tastier 🌞🍋 Introducing our brand-new summer menu — bursting with fresh seasonal flavours you won't want to miss. From zesty citrus salads to our wood-fired truffle pizza, every bite is sunshine on a plate. Book your table tonight via the link in bio 👇<br><br>#SummerMenu #FreshEats #LocalRestaurant #FoodLovers #NewMenu</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-band">
+  <div class="stat-item"><div class="stat-n">10<span>k+</span></div><div class="stat-d">Posts generated daily</div></div>
+  <div class="stat-item"><div class="stat-n">4</div><div class="stat-d">Platforms supported</div></div>
+  <div class="stat-item"><div class="stat-n">2<span>min</span></div><div class="stat-d">Saved per post, on avg</div></div>
+  <div class="stat-item"><div class="stat-n">97<span>%</span></div><div class="stat-d">Customer satisfaction</div></div>
+</div>
+
+<!-- Features -->
+<div id="features" class="section fade-up">
+  <div class="section-tag">Features</div>
+  <h2>Everything you need to<br><em>dominate social media</em></h2>
+  <p class="section-sub">Built for small business owners who don't have time to think about content strategy.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <h3>Instant generation</h3>
+      <p>Describe what you want to post about and get ready-to-publish content in under 5 seconds — for every platform at once.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <h3>Platform-optimised</h3>
+      <p>Instagram, Twitter, LinkedIn, and Facebook each have a different culture. Every post is tailored to perform where it's posted.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🧠</div>
+      <h3>Remembers your brand</h3>
+      <p>Set your tone, niche, and audience once. PostGenius keeps your voice consistent across every single post you ever generate.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📚</div>
+      <h3>Post history</h3>
+      <p>Every post you generate is saved automatically. Search, reuse, and build a growing library of high-quality content.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌍</div>
+      <h3>Any niche, any business</h3>
+      <p>Restaurants, gyms, salons, real estate, e-commerce, coaching — it works for literally any type of small business.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💸</div>
+      <h3>Flat monthly price</h3>
+      <p>No per-post fees, no usage caps on Pro, no hidden charges. One simple price covers everything, forever.</p>
+    </div>
+  </div>
+</div>
+
+<!-- How it works -->
+<div id="how" class="section fade-up">
+  <div class="section-tag">How it works</div>
+  <h2>Three steps to<br><em>perfect posts</em></h2>
+  <p class="section-sub">No learning curve. No manual. No marketing degree required.</p>
+  <div class="steps">
+    <div class="step-box">
+      <div class="step-num">01</div>
+      <h3>Set up your business profile</h3>
+      <p>Enter your business type, target audience, and preferred tone. Takes sixty seconds and you only do it once.</p>
+    </div>
+    <div class="step-box">
+      <div class="step-num">02</div>
+      <h3>Describe what to post</h3>
+      <p>New product? Flash sale? Behind the scenes? Just type a short description of what's happening in your business.</p>
+    </div>
+    <div class="step-box">
+      <div class="step-num">03</div>
+      <h3>Copy, paste, done</h3>
+      <p>Get multiple platform-ready posts instantly. One click to copy. Paste into your social app and post. That's it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="section fade-up">
+  <div class="section-tag">What people say</div>
+  <h2>Real results from<br><em>real businesses</em></h2>
+  <p class="section-sub">Small business owners who stopped dreading Mondays.</p>
+  <div class="testimonials">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I used to spend two hours every Sunday planning my social media week. Now it takes me fifteen minutes and the content is honestly better than what I was writing myself."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SC</div>
+        <div><div class="testi-name">Sarah Chen</div><div class="testi-role">Owner, Sakura Noodle Bar</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"My engagement went up 40% in the first month. The posts actually sound like me — which is the bit I was most worried about. Absolutely worth every penny."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">MJ</div>
+        <div><div class="testi-name">Marcus Johnson</div><div class="testi-role">Personal trainer & gym owner</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"As a real estate agent, consistent posting is everything but I never had the time. PostGenius changed that completely. I post every day now and I've had three referrals from Instagram this month."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">PR</div>
+        <div><div class="testi-name">Priya Rajan</div><div class="testi-role">Real Estate Agent, RE/MAX</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div id="pricing" class="section fade-up">
+  <div class="section-tag">Pricing</div>
+  <h2>Simple, honest<br><em>pricing</em></h2>
+  <p class="section-sub">Start free, no credit card. Upgrade whenever you're ready to go unlimited.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">$0<sub>/mo</sub></div>
+      <div class="plan-tagline">Test the waters for free</div>
+      <ul class="plan-ul">
+        <li>10 posts per month</li>
+        <li>2 platforms (Instagram + 1)</li>
+        <li>3 preset tones</li>
+        <li>7-day post history</li>
+        <li>Community support</li>
+      </ul>
+      <a href="app.html" class="plan-btn plan-btn-outline">Get started free</a>
+    </div>
+    <div class="price-card featured">
+      <div class="popular-badge">Most popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$29<sub>/mo</sub></div>
+      <div class="plan-tagline">For serious business owners</div>
+      <ul class="plan-ul">
+        <li>Unlimited posts</li>
+        <li>All 4 platforms</li>
+        <li>All tones + custom brand voice</li>
+        <li>Unlimited post history</li>
+        <li>Business profile memory</li>
+        <li>Priority email support</li>
+        <li>7-day free trial</li>
+      </ul>
+      <a href="app.html" class="plan-btn plan-btn-solid">Start 7-day free trial</a>
+    </div>
+    <div class="price-card">
+      <div class="plan-name">Agency</div>
+      <div class="plan-price">$79<sub>/mo</sub></div>
+      <div class="plan-tagline">Manage multiple clients</div>
+      <ul class="plan-ul">
+        <li>Up to 10 business profiles</li>
+        <li>Everything in Pro</li>
+        <li>White-label PDF exports</li>
+        <li>Client sharing links</li>
+        <li>Bulk generation mode</li>
+        <li>Dedicated Slack support</li>
+      </ul>
+      <a href="app.html" class="plan-btn plan-btn-outline">Get started</a>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div id="faq" class="section fade-up">
+  <div class="section-tag">FAQ</div>
+  <h2>Questions<br><em>answered</em></h2>
+  <div class="faq-wrap">
+    <div class="faq-item open">
+      <div class="faq-q">Do I need any technical skills to use PostGenius? <em class="faq-icon">+</em></div>
+      <div class="faq-a">None at all. If you can type a sentence, you can use PostGenius. It's built for busy business owners, not developers or marketers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I cancel my subscription anytime? <em class="faq-icon">+</em></div>
+      <div class="faq-a">Yes. Cancel with one click from your settings page, no questions asked. You'll keep full access until the end of your billing period.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What types of businesses is this built for? <em class="faq-icon">+</em></div>
+      <div class="faq-a">Any local or online business — restaurants, cafes, gyms, beauty salons, real estate agents, online stores, coaches, consultants, freelancers. If you post on social media to find customers, PostGenius is for you.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is PostGenius different from just using ChatGPT? <em class="faq-icon">+</em></div>
+      <div class="faq-a">ChatGPT is a general tool that requires careful, lengthy prompting to get good social content — and you have to re-explain your business every single time. PostGenius is purpose-built for social media, knows the best practices for each platform, remembers your brand voice and business details, and is five times faster to use day-to-day.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will the posts actually sound like me? <em class="faq-icon">+</em></div>
+      <div class="faq-a">Yes. That's one of the things we're most proud of. When you set up your brand voice in settings, PostGenius uses that to keep every post consistent with how you actually talk to your customers. Most users say the posts sound more like them than what they'd write themselves, because they finally have time to think about the message rather than battling with grammar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is there a free trial? <em class="faq-icon">+</em></div>
+      <div class="faq-a">Yes — two ways. First, the free Starter plan gives you 10 posts per month with no credit card required, forever. Second, the Pro plan includes a 7-day free trial before you're charged anything.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section fade-up">
+  <div class="section-tag">Get started today</div>
+  <h2>Your next 30 days of<br><em>content, sorted.</em></h2>
+  <p>Join thousands of small business owners who've stopped stressing about social media.</p>
+  <a href="app.html" class="btn-primary" style="font-size:16px;padding:16px 40px">Start free — no credit card required</a>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="mailto:hello@postgeniusapp.com">Contact</a>
+  </div>
+  <p>© 2025 PostGenius. Made for small business owners everywhere.</p>
+</footer>
+
+<script>
+// FAQ
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
